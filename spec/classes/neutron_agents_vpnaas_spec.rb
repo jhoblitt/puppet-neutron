@@ -126,13 +126,27 @@ describe 'neutron::agents::vpnaas' do
     it_configures 'neutron vpnaas agent'
   end
 
-  context 'on RedHat platforms' do
+  context 'on RedHat el6 platforms' do
     let :facts do
-      { :osfamily => 'RedHat' }
+      { :osfamily => 'RedHat', :operatingsystem => 'RedHat', :operatingsystemmajrelease => 6 }
     end
 
     let :platform_params do
-      { :openswan_package   => 'openswan',
+      { :openswan_package     => 'openswan',
+        :vpnaas_agent_package => 'openstack-neutron-vpn-agent',
+        :vpnaas_agent_service => 'neutron-vpn-agent'}
+    end
+
+    it_configures 'neutron vpnaas agent'
+  end
+
+  context 'on RedHat el7 platforms' do
+    let :facts do
+      { :osfamily => 'RedHat', :operatingsystem => 'RedHat', :operatingsystemmajrelease => 7 }
+    end
+
+    let :platform_params do
+      { :openswan_package     => 'libreswan',
         :vpnaas_agent_package => 'openstack-neutron-vpn-agent',
         :vpnaas_agent_service => 'neutron-vpn-agent'}
     end
